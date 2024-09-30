@@ -1,0 +1,34 @@
+#include "DHT.h"  // Import library DHT
+
+#define DHTPIN 2     // Pin digital yang terhubung ke sensor DHT11
+#define DHTTYPE DHT11   // Jenis sensor yang digunakan, DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600); 
+  dht.begin();  // Inisialisasi sensor DHT
+  Serial.println("DHT11 Sensor Initialized");
+}
+
+void loop() {
+  // Membaca data dari sensor
+  float humidity = dht.readHumidity();
+  float temperature = dht.readTemperature();
+
+  // Mengecek apakah pembacaan gagal
+  if (isnan(humidity) || isnan(temperature)) {
+    Serial.println("Gagal membaca data dari sensor!");
+    return;
+  }
+
+  // Menampilkan hasil ke serial monitor
+  Serial.print("Kelembaban: ");
+  Serial.print(humidity);
+  Serial.print("%  ");
+  Serial.print("Suhu: ");
+  Serial.print(temperature);
+  Serial.println("°C");
+
+  delay(2000);  // Menunggu 2 detik sebelum pembacaan berikutnya
+}
